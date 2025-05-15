@@ -3,6 +3,7 @@ import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import { addConnections } from "../utils/connectionSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Connections = () => {
   const connections = useSelector((store) => store.connections);
@@ -32,7 +33,7 @@ const Connections = () => {
 
   return (
     <div className="text-center my-auto">
-      <h1 className="text-bold text-2xl">Connections</h1>
+      <h1 className="text-bold text-2xl mb-6">Connections</h1>
       {connections.map((connection) => {
         const { _id, firstName, lastName, photoUrl, age, gender, about } =
           connection;
@@ -40,22 +41,34 @@ const Connections = () => {
         return (
           <div
             key={_id}
-            className="flex m-4 p-4 rounded-lg bg-base-300 w-1/2 mx-auto"
+            className="flex items-center justify-between gap-4 p-4 mb-3 w-[90%] sm:w-[80%] md:w-[60%] lg:w-1/2 mx-auto bg-base-300 rounded-xl shadow hover:scale-95 hover:bg-base-200 transition-all duration-200"
           >
-            <div>
+            <div className="flex items-center gap-4">
               <img
                 alt="photo"
-                className="w-20 h-20 rounded-full object-cover"
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover ring ring-offset-base-100 ring-offset-2"
                 src={photoUrl}
               />
+
+              <div>
+                <h2 className="font-semibold text-lg">
+                  {firstName + " " + lastName}
+                </h2>
+                {age && gender && (
+                  <p className="text-sm text-gray-400">
+                    {age + " • " + gender}
+                  </p>
+                )}
+                <p className="text-sm text-gray-400 truncate max-w-[200px]">
+                  {about}
+                </p>
+              </div>
             </div>
-            <div className="text-left mx-4 ">
-              <h2 className="font-bold text-xl">
-                {firstName + " " + lastName}
-              </h2>
-              {age && gender && <p>{age + ", " + gender}</p>}
-              <p>{about}</p>
-            </div>
+            <Link to={"/chat/" + _id}>
+              <button className="btn btn-md bg-yellow-500 hover:bg-yellow-400 text-black">
+                Chat
+              </button>
+            </Link>
           </div>
         );
       })}

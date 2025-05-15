@@ -40,12 +40,12 @@ const Requests = () => {
 
   if (requests.length === 0)
     return (
-      <h1 className="flex justify-center items-center">No Connections Found</h1>
+      <h1 className="flex justify-center items-center">No Requests Found</h1>
     );
 
   return (
     <div className="text-center my-auto">
-      <h1 className="text-bold text-2xl">Requests</h1>
+      <h1 className="text-bold text-2xl mb-6">Requests</h1>
       {requests.map((request) => {
         const { _id, firstName, lastName, photoUrl, age, gender, about } =
           request.fromUserId;
@@ -53,31 +53,40 @@ const Requests = () => {
         return (
           <div
             key={_id}
-            className="flex justify-around items-center m-4 p-4 rounded-lg bg-base-300 w-1/2 mx-auto"
+            className="flex items-center justify-between gap-4 p-4 mb-3 w-[90%] sm:w-[80%] md:w-[60%] lg:w-1/2 mx-auto bg-base-300 rounded-xl shadow hover:scale-95 hover:bg-base-200 transition-all duration-200"
           >
-            <div className="flex-2">
+            {/* Avatar + Info */}
+            <div className="flex items-center gap-4">
               <img
                 alt="photo"
-                className="w-20 h-20 rounded-full object-cover"
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover ring ring-offset-base-100 ring-offset-2"
                 src={photoUrl}
               />
+              <div>
+                <h2 className="font-semibold text-lg">
+                  {firstName + " " + lastName}
+                </h2>
+                {age && gender && (
+                  <p className="text-sm text-gray-400">
+                    {age + " • " + gender}
+                  </p>
+                )}
+                <p className="text-sm text-gray-400 truncate max-w-[200px]">
+                  {about}
+                </p>
+              </div>
             </div>
-            <div className=" flex-1 text-left mx-4 ">
-              <h2 className="font-bold text-xl">
-                {firstName + " " + lastName}
-              </h2>
-              {age && gender && <p>{age + ", " + gender}</p>}
-              <p>{about}</p>
-            </div>
-            <div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-2">
               <button
-                className="btn btn-primary mx-2"
+                className="btn btn-md bg-gray-700 hover:bg-gray-600 text-white"
                 onClick={() => reviewRequest("rejected", request._id)}
               >
                 Reject
               </button>
               <button
-                className="btn btn-secondary mx-2"
+                className="btn btn-md bg-yellow-500 hover:bg-yellow-400 text-black"
                 onClick={() => reviewRequest("accepted", request._id)}
               >
                 Accept
